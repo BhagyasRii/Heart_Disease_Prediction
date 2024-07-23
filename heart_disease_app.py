@@ -1,8 +1,5 @@
 import streamlit as st
 import pandas as pd
-#from sklearn.preprocessing import StandardScaler, LabelEncoder
-#from sklearn.svm import SVC
-#from sklearn.metrics import classification_report, accuracy_score
 import pickle
 import os
 
@@ -78,8 +75,8 @@ def main():
     
     if st.button("Predict"):
         # Absolute paths to model and scaler files
-        model_path = 'C:/Users/Praneeth/Desktop/Classification_ml/final_svm_model.sav'
-        scaler_path = 'C:/Users/Praneeth/Desktop/Classification_ml/scaler.sav'
+        model_path = 'final_svm_model.sav'
+        scaler_path = 'scaler.sav'
         
         try:
             loaded_model = pickle.load(open(model_path, 'rb'))
