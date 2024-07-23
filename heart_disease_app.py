@@ -4,8 +4,46 @@ from sklearn.preprocessing import StandardScaler, LabelEncoder
 from sklearn.svm import SVC
 from sklearn.metrics import classification_report, accuracy_score
 import pickle
+import os
 
 def main():
+    # Custom CSS for styling
+    st.markdown(
+        f"""
+        <style>
+        body {{
+            background-color: black;
+        }}
+        .reportview-container {{
+            background: black;
+            color: white;
+            padding: 20px;
+            border-radius: 10px;
+        }}
+        .sidebar .sidebar-content {{
+            background: black;
+            color: white;
+        }}
+        .stButton button {{
+            background: linear-gradient(to right, #00f260, #0575e6);
+            color: white;
+            border-radius: 10px;
+            font-size: 16px;
+            padding: 10px 20px;
+        }}
+        .stNumberInput, .stSelectbox, .stTextInput {{
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border-radius: 10px;
+        }}
+        .stNumberInput > div > div > input, .stTextInput > div > div > input {{
+            color: white;
+        }}
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
     st.title("Heart Disease Prediction")
 
     # Input fields for each feature
@@ -39,12 +77,15 @@ def main():
     input_data = pd.DataFrame([data])
     
     if st.button("Predict"):
-        # Load the model and scaler from disk
+        # Absolute paths to model and scaler files
+        model_path = 'C:/Users/Praneeth/Desktop/Classification_ml/final_svm_model.sav'
+        scaler_path = 'C:/Users/Praneeth/Desktop/Classification_ml/scaler.sav'
+        
         try:
-            loaded_model = pickle.load(open('final_svm_model.sav', 'rb'))
-            loaded_scaler = pickle.load(open('scaler.sav', 'rb'))
+            loaded_model = pickle.load(open(model_path, 'rb'))
+            loaded_scaler = pickle.load(open(scaler_path, 'rb'))
         except FileNotFoundError:
-            st.error("Model or scaler files not found. Please make sure the files 'final_svm_model.sav' and 'scaler.sav' are present in the directory.")
+            st.error(f"Model or scaler files not found. Please make sure the files 'final_svm_model.sav' and 'scaler.sav' are present in the directory.")
             return
         
         # Standardize the features
@@ -52,14 +93,12 @@ def main():
         
         # Predict
         prediction = loaded_model.predict(input_data_scaled)
-        prediction_proba = loaded_model.predict_proba(input_data_scaled)
 
         # Display result
         if prediction[0] == 1:
             st.write("The model predicts that the person **has** heart disease.")
         else:
             st.write("The model predicts that the person **does not have** heart disease.")
-        st.write(f"Prediction confidence: {prediction_proba[0][prediction[0]]*100:.2f}%")
 
 if __name__ == "__main__":
     main()
