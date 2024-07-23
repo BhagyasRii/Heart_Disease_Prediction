@@ -1,8 +1,8 @@
 import streamlit as st
 import pandas as pd
-from sklearn.preprocessing import StandardScaler, LabelEncoder
-from sklearn.svm import SVC
-from sklearn.metrics import classification_report, accuracy_score
+#from sklearn.preprocessing import StandardScaler, LabelEncoder
+#from sklearn.svm import SVC
+#from sklearn.metrics import classification_report, accuracy_score
 import pickle
 import os
 
